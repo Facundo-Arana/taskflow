@@ -1,0 +1,16 @@
+.main-conteiner {
+    width: 100%;
+}
+
+.main-layout {
+    width: 80%;
+    max-width: 1920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.main-title {
+   color: #D91EFF;
+}

@@ -1,0 +1,125 @@
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #8e8e8e;
+}
+
+.task-data {
+  display: inherit;
+  flex-direction: inherit;
+  margin-left: 20px;
+  width: -moz-available;
+  justify-content: space-between;
+}
+
+.task-data div {
+  margin-right: 20px;
+}
+
+.task-item-title {
+  font-size: 20px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.task-item-description {
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+/* Delete buttom style and interactions */
+
+.task .task-data .delete-item {
+  background-image: url("../img/delete-button.png");
+  background-repeat: no-repeat;
+  width: 48px;
+  height: 48px;
+  border: 0px;
+  padding: 0px;
+}
+
+.task .task-data .delete-item:hover {
+  background-image: url("../img/delete-button-red.png");
+  cursor: pointer;
+}
+
+/*
+ * Checkbox custom styles and interactions 
+ */
+/* Customize the label (the container) */
+.task .checkbox-container {
+  display: block;
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  padding-left: 55px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.task .checkbox-container input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.task .checkbox-container .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 50px;
+  width: 50px;
+  border: 1px solid black;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input~.checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.task .checkbox-container input[type="checkbox"]:checked~.checkmark {
+  background-color: #ccc;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.task .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.task .checkbox-container input[type="checkbox"]:checked~.checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.task .checkbox-container .checkmark:after {
+  left: 20px;
+  top: 0px;
+  width: 12px;
+  height: 35px;
+  border: solid #007a2b;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}

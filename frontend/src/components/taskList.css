@@ -1,0 +1,19 @@
+.task-list-container {
+    width: 100%;
+    width: -moz-available;
+    max-width: 800px;
+}
+
+.task-list-container h3 {
+    color: #000;
+    font-size: 26px;
+}
+
+.task-list {
+    list-style: "none";
+    padding: 0;
+}
+
+.task-error {
+    color: #D90D43;
+}

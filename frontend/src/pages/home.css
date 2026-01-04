@@ -1,0 +1,17 @@
+.home-container {
+    display: flex;
+    flex-direction: row;
+    column-gap: 50px;
+    width: -moz-available;
+    justify-content: space-between;
+}
+
+.home-container h2{
+    color: #682BFF;
+}
+
+@media screen and (max-width: 1200px){
+    .home-container {
+        flex-direction: column;
+    }
+}
