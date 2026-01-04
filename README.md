@@ -1,68 +1,112 @@
-# TaskFlow – Frontend
+# TaskFlow 🗂️
 
-Frontend de **TaskFlow**, una aplicación de gestión de tareas tipo ToDo, desarrollada con **React**.  
-Consume una API REST construida en Spring Boot.
+TaskFlow es una aplicación fullstack para la gestión de tareas, desarrollada como proyecto de portfolio.  
+Permite crear, listar, actualizar, completar y eliminar tareas, con un frontend moderno en React y un backend REST en Spring Boot.
 
-## 🛠️ Tecnologías
+---
 
+## Arquitectura del proyecto
+
+El repositorio contiene frontend y backend en un mismo proyecto, organizados de la siguiente manera:
+
+taskflow/
+- frontend/          Aplicación React (Vite)
+- taskflow-backend/  API REST con Spring Boot
+
+Frontend:
 - React
 - Vite
 - Axios
-- CSS plano (por componente)
-- JavaScript (ES6+)
 
-## ⚙️ Funcionalidades
+Backend:
+- Spring Boot
+- Spring Data JPA
+- H2 Database
 
+Comunicación:
+- API REST (JSON)
+
+---
+
+## Funcionalidades
+
+- Crear tareas
 - Listar tareas
-- Crear nuevas tareas
 - Marcar tareas como completadas
 - Eliminar tareas
-- Mostrar contador de tareas completadas / totales
+- Contador de tareas completadas / totales
 - Manejo de estados de carga y error
-- Consumo de API vía Axios
+- Manejo global de excepciones en backend
+- CORS configurado para integración frontend-backend
 
-## 🔗 Backend
+---
 
-El frontend espera que el backend esté corriendo en:
+## Requisitos
+
+- Node.js 18 o superior
+- Java 17
+- Maven
+- Navegador web moderno
+
+---
+
+## Cómo ejecutar el proyecto
+
+### Backend (Spring Boot)
+
+1. Abrir la carpeta taskflow-backend en el IDE.
+2. Ejecutar la clase principal anotada con @SpringBootApplication.
+3. El backend se levanta en:
 
 http://localhost:8080
 
+Principales endpoints:
 
-Endpoints utilizados:
-- `GET /api/task`
-- `POST /api/task`
-- `PUT /api/task/{id}`
-- `DELETE /api/task/{id}`
+- GET    /api/task
+- POST   /api/task
+- PUT    /api/task/{id}
+- PATCH  /api/task/{id}/toggle
+- DELETE /api/task/{id}
 
-## ▶️ Cómo ejecutar el proyecto
+---
 
-1. Clonar el repositorio
+### Frontend (React)
+
+1. Abrir una terminal en la carpeta frontend.
 2. Instalar dependencias:
 
-    ```bash
-    npm install
+npm install
 
-3. Ejecutar en modo desarrollo:
+3. Ejecutar la aplicación:
 
-    ```bash
-    npm run dev
+npm run dev
 
-4. Abrir en el navegador: http://localhost:5173
+4. Acceder desde el navegador:
 
-## 📌 Notas
+http://localhost:5173
 
-    El estado global de las tareas se maneja en App.jsx
+El frontend se conecta al backend en http://localhost:8080.
 
-    Los componentes son funcionales y usan hooks (useState, useEffect)
+---
 
-    Los estilos están separados por componente para facilitar el mantenimiento
+## Base de datos
 
-## 🚀 Próximas mejoras
+- Se utiliza H2 en memoria
+- No requiere configuración adicional
+- Los datos se reinician al reiniciar el backend
 
-    Mejoras visuales (UI/UX)
+---
 
-    Manejo de formularios controlados
+## Notas técnicas
 
-    Feedback visual (toasts, loaders)
+- El estado global de tareas se maneja en el componente App.
+- TaskForm y TaskList se comunican mediante props.
+- Axios se utiliza para la comunicación HTTP.
+- El backend expone una API REST desacoplada del frontend.
+- El proyecto está preparado para escalar a base de datos persistente y autenticación.
 
-    Deploy
+---
+
+## Licencia
+
+Proyecto de uso educativo y de portfolio.
