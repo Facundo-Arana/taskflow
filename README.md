@@ -75,15 +75,15 @@ Principales endpoints:
 1. Abrir una terminal en la carpeta frontend.
 2. Instalar dependencias:
 
-npm install
+    npm install
 
 3. Ejecutar la aplicación:
 
-npm run dev
+    npm run dev
 
 4. Acceder desde el navegador:
 
-http://localhost:5173
+    http://localhost:5173
 
 El frontend se conecta al backend en http://localhost:8080.
 
