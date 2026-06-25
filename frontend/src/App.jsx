@@ -1,73 +1,61 @@
 import MainLayout from "./layout/MainLayout";
 import Home from "./pages/Home";
 import Header from "./components/Header";
-import { useState, useEffect } from "react";
-import { getAllTasks, createTask, toggleTask, deleteTask } from "./services/taskService";
+import { useEffect, useState } from "react";
+import { createTask, deleteTask, getAllTasks, toggleTask } from "./services/taskService";
 
+const sortTasks = (tasks) =>
+  [...tasks].sort((a, b) => Number(a.completed) - Number(b.completed));
 
 function App() {
-
   const [taskList, setTaskList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error , setError] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getAllTasks()
-      .then(response => {     
-        setTaskList(response.data);
-        sort();
+      .then((response) => {
+        setTaskList(sortTasks(response.data));
+        setError(null);
       })
-      .catch(() => setError('No se pudieron cargar las tareas'))
+      .catch(() => setError("No se pudieron cargar las tareas"))
       .finally(() => setLoading(false));
   }, []);
 
-
   const handleToggle = (id) => {
     toggleTask(id)
-      .then(response => {
-        setTaskList(prev =>
-          prev.map(task =>
+      .then((response) => {
+        setTaskList((prev) =>
+          sortTasks(prev.map((task) =>
             task.id === id ? response.data : task
-          )
-        )
-        //sort();
+          ))
+        );
+        setError(null);
       })
+      .catch(() => setError("No se pudo actualizar la tarea"));
   }
 
   const handleDelete = (id) => {
     deleteTask(id)
       .then(() => {
-        setTaskList(prev => prev.filter(task => task.id !== id))
-        //sort();
+        setTaskList((prev) => prev.filter((task) => task.id !== id));
+        setError(null);
       })
-      .catch(err => {
-
-        //console.error(err);
-      });
+      .catch(() => setError("No se pudo eliminar la tarea"));
   }
 
   const handleAddTask = (taskData) => {
     createTask(taskData)
-      .then(response => {
-        setTaskList(prev => [...prev, response.data]);
+      .then((response) => {
+        setTaskList((prev) => sortTasks([...prev, response.data]));
+        setError(null);
       })
-      .catch(err => /* console.error(err) */ '');
-  }
-
-  const handleSort = () => {
-    sort();
-  }
-
-  const sort = () => {
-    setTaskList(prev =>
-      [...prev].sort((a, b) => Number(a.completed) - Number(b.completed))
-    );
+      .catch(() => setError("No se pudo crear la tarea"));
   }
 
   return (
     <MainLayout>
       <Header />
-
       <Home
         loading={loading}
         error={error}
@@ -75,10 +63,7 @@ function App() {
         onToggle={handleToggle}
         onDelete={handleDelete}
         onAddTask={handleAddTask}
-        handleSort={handleSort}
       />
-
-
     </MainLayout>
   )
 }

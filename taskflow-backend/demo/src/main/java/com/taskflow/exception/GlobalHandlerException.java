@@ -14,44 +14,38 @@ import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class GlobalHandlerException {
-	
-	// Validaciones fallidas (@Valid)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationErrors(MethodArgumentNotValidException ex) {
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("error", "Validación fallida");
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<Object> handleValidationErrors(MethodArgumentNotValidException ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("error", "Validación fallida");
 
-        var errores = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(err -> err.getField() + ": " + err.getDefaultMessage())
-                .collect(Collectors.toList());
+		var errors = ex.getBindingResult()
+				.getFieldErrors()
+				.stream()
+				.map(err -> err.getField() + ": " + err.getDefaultMessage())
+				.collect(Collectors.toList());
 
-        body.put("detalles", errores);
+		body.put("detalles", errors);
 
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
+		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+	}
 
-    // Entidad no encontrada
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("error", "Recurso no encontrado");
+		body.put("detalle", ex.getMessage());
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("error", "Recurso no encontrado");
-        body.put("detalle", ex.getMessage());
+		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-    }
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Object> handleGeneralException(Exception ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("error", "Error interno en el servidor");
+		body.put("detalle", ex.getMessage());
 
-    // Excepción genérica 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGeneralException(Exception ex) {
-
-        Map<String, Object> body = new HashMap<>();
-        body.put("error", "Error interno en el servidor");
-        body.put("detalle", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+		return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

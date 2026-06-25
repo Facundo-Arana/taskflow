@@ -1,8 +1,6 @@
 package com.taskflow.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.taskflow.dto.TaskRequest;
@@ -34,40 +32,31 @@ public class TaskService {
 	}
 
 	public TaskResponse getTaskById(Long id) {
-		Task task = this.taskRepository.getReferenceById(id); 
+		Task task = this.taskRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("No existe la tarea con id: " + id)); 
 		return TaskMapper.toResponse(task);
 	}
 	
 	public TaskResponse updateTask(Long id, TaskRequest taskRequest) {
-		Optional<Task> optionalTask = this.taskRepository.findById(id);
-		if(optionalTask.isPresent()) {
-			TaskMapper.updateEntity(optionalTask.get(), taskRequest);
-			Task updated = this.taskRepository.save(optionalTask.get());
-			return TaskMapper.toResponse(updated);
-		} else {
-			throw new RuntimeException("Entity not found with ID: " + id);
-		}
+		Task task = this.taskRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("No existe la tarea con id: " + id));
+		TaskMapper.updateEntity(task, taskRequest);
+		Task updated = this.taskRepository.save(task);
+		return TaskMapper.toResponse(updated);
 	}
 	
-	public TaskResponse tooggleTask(Long id) {
-		Optional<Task> optionalTask = this.taskRepository.findById(id);
-		if(optionalTask.isPresent()) {
-			Task task = optionalTask.get();
-			task.setCompleted(!task.isCompleted());
-			Task updated = this.taskRepository.save(task);
-			return TaskMapper.toResponse(updated);
-		} else {
-			throw new EntityNotFoundException("No existe la tarea con id: " + id);
-		}
+	public TaskResponse toggleTask(Long id) {
+		Task task = this.taskRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("No existe la tarea con id: " + id));
+		task.setCompleted(!task.isCompleted());
+		Task updated = this.taskRepository.save(task);
+		return TaskMapper.toResponse(updated);
 	}
 	
 	public void deleteTask(Long id) {
-		Optional<Task> optionalTask = this.taskRepository.findById(id);
-		if(optionalTask.isPresent()) {
-			this.taskRepository.delete(this.taskRepository.findById(id).get());
-		} else {
-			throw new EntityNotFoundException("No existe la tarea con id: " + id);
-		}
+		Task task = this.taskRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("No existe la tarea con id: " + id));
+		this.taskRepository.delete(task);
 	}
 
 	

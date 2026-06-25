@@ -51,7 +51,7 @@ public class TaskController {
 	
 	@PatchMapping("/{id}/toggle")
 	public ResponseEntity<TaskResponse> updateTask(@PathVariable Long id) {	
-		TaskResponse task = this.taskService.tooggleTask(id);
+		TaskResponse task = this.taskService.toggleTask(id);
 		return new ResponseEntity<TaskResponse>(task, HttpStatus.OK);
 	}
 	
@@ -64,7 +64,7 @@ public class TaskController {
 	@PostMapping("")
 	public ResponseEntity<TaskResponse> createTask(@Valid @RequestBody TaskRequest taskData) {
 		TaskResponse task = this.taskService.createTask(taskData);
-		return new ResponseEntity<>(task, HttpStatus.OK);
+		return new ResponseEntity<>(task, HttpStatus.CREATED);
 	}
 
 }

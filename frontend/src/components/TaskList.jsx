@@ -1,11 +1,9 @@
 import TaskItem from "./TaskItem";
 import "./taskList.css";
 
-
-function TaskList({ loading, error, taskList,  onToggle, onDelete, onSort }) {
-
+function TaskList({ loading, error, taskList, onToggle, onDelete }) {
   const total = taskList.length;
-  const completed = taskList.filter(t => t.completed).length;
+  const completed = taskList.filter((task) => task.completed).length;
 
   return (
     <div className="task-list-container">
@@ -13,18 +11,21 @@ function TaskList({ loading, error, taskList,  onToggle, onDelete, onSort }) {
 
       {loading && <p>Cargando tareas...</p>}
       {error && <p className="task-error">{error}</p>}
-      
-      {!error && !loading && total == 0 && <p>No hay tareas todavía</p> }
 
+      {!error && !loading && total === 0 && <p>No hay tareas todavía</p>}
+      {!error && !loading && (
+        <p className="task-counter">
+          {completed} completadas / {total} totales
+        </p>
+      )}
 
-      {!error && !loading && <p>{completed} completadas / {total} totales </p>}
       <ul className="task-list">
-        {taskList.map(task => (
+        {taskList.map((task) => (
           <TaskItem
-          key={task.id}
-          task={task}
-          onToggle={onToggle}
-          onDelete={onDelete}
+            key={task.id}
+            task={task}
+            onToggle={onToggle}
+            onDelete={onDelete}
           />
         ))}
       </ul>

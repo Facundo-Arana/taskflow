@@ -5,8 +5,7 @@ import com.taskflow.dto.TaskResponse;
 import com.taskflow.model.Task;
 
 public class TaskMapper {
-	
-	// Request → Entity 
+
     public static Task toEntity(TaskRequest request) {
         if (request == null) return null;
 
@@ -18,7 +17,6 @@ public class TaskMapper {
         return task;
     }
 
-    // Entity → Response 
     public static TaskResponse toResponse(Task task) {
         if (task == null) return null;
 
@@ -30,11 +28,9 @@ public class TaskMapper {
         );
     }
 
-    // Request → Entity 
     public static void updateEntity(Task task, TaskRequest request) {
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setCompleted(request.isCompleted());
     }
-
 }

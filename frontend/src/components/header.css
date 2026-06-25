@@ -1,4 +1,28 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .header-title {
-    color: #000;
-    font-size: 32px;
+    margin: 0;
+    color: #172033;
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.header-title::after {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 4px;
+    margin-top: 10px;
+    border-radius: 999px;
+    background: #1d9a6c;
+}
+
+@media screen and (max-width: 720px) {
+    .header-title {
+        font-size: 32px;
+    }
 }

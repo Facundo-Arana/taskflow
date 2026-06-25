@@ -1,111 +1,177 @@
-# TaskFlow 🗂️
+# TaskFlow
 
-TaskFlow es una aplicación fullstack para la gestión de tareas, desarrollada como proyecto de portfolio.  
-Permite crear, listar, actualizar, completar y eliminar tareas, con un frontend moderno en React y un backend REST en Spring Boot.
+TaskFlow es una aplicación fullstack para gestionar tareas, desarrollada como proyecto de portfolio.
+El objetivo del proyecto es mostrar una integración clara entre un frontend moderno en React y una API REST en Spring Boot.
 
----
-
-## Arquitectura del proyecto
-
-El repositorio contiene frontend y backend en un mismo proyecto, organizados de la siguiente manera:
-
-taskflow/
-- frontend/          Aplicación React (Vite)
-- taskflow-backend/  API REST con Spring Boot
+## Stack
 
 Frontend:
+
 - React
 - Vite
 - Axios
+- CSS modular por componente
 
 Backend:
+
+- Java 17
 - Spring Boot
+- Spring Web
 - Spring Data JPA
+- Bean Validation
 - H2 Database
-
-Comunicación:
-- API REST (JSON)
-
----
+- Springdoc OpenAPI
 
 ## Funcionalidades
 
-- Crear tareas
-- Listar tareas
-- Marcar tareas como completadas
-- Eliminar tareas
-- Contador de tareas completadas / totales
-- Manejo de estados de carga y error
-- Manejo global de excepciones en backend
-- CORS configurado para integración frontend-backend
+- Crear tareas.
+- Listar tareas.
+- Marcar tareas como completadas o pendientes.
+- Eliminar tareas.
+- Ver contador de tareas completadas y totales.
+- Manejar estados de carga y error.
 
----
+## Arquitectura
 
-## Requisitos
+El repositorio contiene frontend y backend separados:
 
-- Node.js 18 o superior
-- Java 17
-- Maven
-- Navegador web moderno
+```text
+taskflow/
+├── frontend/              # Aplicación React con Vite
+└── taskflow-backend/demo/ # API REST con Spring Boot
+```
 
----
+Backend:
 
-## Cómo ejecutar el proyecto
+```text
+controller -> service -> repository -> database
+                |
+              mapper
+                |
+               DTOs
+```
 
-### Backend (Spring Boot)
+La API no expone directamente la entidad `Task`: utiliza `TaskRequest` para recibir datos y `TaskResponse` para responder.
 
-1. Abrir la carpeta taskflow-backend en el IDE.
-2. Ejecutar la clase principal anotada con @SpringBootApplication.
-3. El backend se levanta en:
+## API REST
 
+Base URL local:
+
+```text
+http://localhost:8080/api/task
+```
+
+Endpoints principales:
+
+| Método | Endpoint | Descripción |
+| --- | --- | --- |
+| GET | `/api/task` | Lista todas las tareas |
+| GET | `/api/task/{id}` | Obtiene una tarea por ID |
+| POST | `/api/task` | Crea una tarea |
+| PUT | `/api/task/{id}` | Actualiza una tarea |
+| PATCH | `/api/task/{id}/toggle` | Alterna el estado completado/pendiente |
+| DELETE | `/api/task/{id}` | Elimina una tarea |
+
+## Cómo ejecutar
+
+### Backend
+
+Desde `taskflow-backend/demo`:
+
+```bash
+./mvnw spring-boot:run
+```
+
+En Windows:
+
+```bash
+mvnw.cmd spring-boot:run
+```
+
+La API queda disponible en:
+
+```text
 http://localhost:8080
+```
 
-Principales endpoints:
+Para habilitar configuración de desarrollo con consola H2 y logs SQL:
 
-- GET    /api/task
-- POST   /api/task
-- PUT    /api/task/{id}
-- PATCH  /api/task/{id}/toggle
-- DELETE /api/task/{id}
+```bash
+mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=dev
+```
 
----
+### Frontend
 
-### Frontend (React)
+Desde `frontend`:
 
-1. Abrir una terminal en la carpeta frontend.
-2. Instalar dependencias:
+```bash
+npm install
+npm run dev
+```
 
-    npm install
+La aplicación queda disponible en:
 
-3. Ejecutar la aplicación:
+```text
+http://localhost:5173
+```
 
-    npm run dev
+## Variables de entorno
 
-4. Acceder desde el navegador:
+Frontend:
 
-    http://localhost:5173
+```env
+VITE_API_URL=http://localhost:8080/api/task
+```
 
-El frontend se conecta al backend en http://localhost:8080.
+Backend:
 
----
+```env
+SERVER_PORT=8080
+DB_URL=jdbc:h2:mem:taskflowdb
+DB_DRIVER=org.h2.Driver
+DB_USERNAME=sa
+DB_PASSWORD=
+JPA_DDL_AUTO=update
+JPA_SHOW_SQL=false
+H2_CONSOLE_ENABLED=false
+```
 
-## Base de datos
+## Validaciones y errores
 
-- Se utiliza H2 en memoria
-- No requiere configuración adicional
-- Los datos se reinician al reiniciar el backend
+El backend valida los datos de entrada con Bean Validation.
+Por ejemplo, el título de una tarea no puede estar vacío.
 
----
+Los errores se centralizan en `GlobalHandlerException`, devolviendo respuestas consistentes para:
+
+- Validaciones fallidas.
+- Recursos no encontrados.
+- Errores internos.
+
+## Calidad
+
+Comandos de verificación:
+
+Frontend:
+
+```bash
+npm run lint
+npm run build
+```
+
+Backend:
+
+```bash
+mvnw.cmd test
+```
+
+El backend incluye tests de integración para creación, validación, cambio de estado y errores 404.
 
 ## Notas técnicas
 
-- El estado global de tareas se maneja en el componente App.
-- TaskForm y TaskList se comunican mediante props.
-- Axios se utiliza para la comunicación HTTP.
-- El backend expone una API REST desacoplada del frontend.
-- El proyecto está preparado para escalar a base de datos persistente y autenticación.
-
----
+- La base de datos H2 corre en memoria, por lo que los datos se reinician al reiniciar el backend.
+- La URL de la API en el frontend se configura con `VITE_API_URL`.
+- La consola H2 está deshabilitada por defecto y puede habilitarse con el perfil `dev`.
+- El proyecto evita agregar autenticación para mantener el alcance simple y claro como demo de portfolio.
 
 ## Licencia
 

@@ -1,76 +1,84 @@
 .completed {
   text-decoration: line-through;
-  opacity: 0.6;
+  opacity: 0.62;
 }
 
 .task {
-  display: flex;
-  flex-direction: row;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #8e8e8e;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #e0e6ef;
+  border-radius: 8px;
+  background: #f9fbfd;
 }
 
 .task-data {
-  display: inherit;
-  flex-direction: inherit;
-  margin-left: 20px;
-  width: -moz-available;
+  display: flex;
+  align-items: start;
   justify-content: space-between;
+  gap: 18px;
+  min-width: 0;
 }
 
 .task-data div {
-  margin-right: 20px;
+  min-width: 0;
 }
 
 .task-item-title {
-  font-size: 20px;
-  margin-top: 0px;
-  margin-bottom: 10px;
+  margin: 0 0 8px;
+  color: #172033;
+  font-size: 17px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
 }
 
 .task-item-description {
-  font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 0px;
+  margin: 0;
+  color: #647084;
+  font-size: 15px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
-/* Delete buttom style and interactions */
-
 .task .task-data .delete-item {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0;
+  background-color: transparent;
   background-image: url("../img/delete-button.png");
+  background-position: center;
   background-repeat: no-repeat;
-  width: 48px;
-  height: 48px;
-  border: 0px;
-  padding: 0px;
+  background-size: 26px 26px;
+  transition: background-color .2s, border-color .2s;
 }
 
 .task .task-data .delete-item:hover {
+  border-color: #f3b8c6;
+  background-color: #fff1f4;
   background-image: url("../img/delete-button-red.png");
   cursor: pointer;
 }
 
-/*
- * Checkbox custom styles and interactions 
- */
-/* Customize the label (the container) */
+.task .task-data .delete-item:focus-visible {
+  outline: none;
+  border-color: #bd1744;
+  box-shadow: 0 0 0 3px rgba(189, 23, 68, 0.14);
+}
+
 .task .checkbox-container {
   display: block;
   position: relative;
-  width: fit-content;
-  height: fit-content;
-  padding-left: 55px;
-  margin-bottom: 12px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
-/* Hide the browser's default checkbox */
 .task .checkbox-container input[type="checkbox"] {
   position: absolute;
   opacity: 0;
@@ -79,47 +87,55 @@
   width: 0;
 }
 
-/* Create a custom checkbox */
 .task .checkbox-container .checkmark {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 50px;
-  width: 50px;
-  border: 1px solid black;
+  inset: 0;
+  border: 2px solid #c8d1df;
+  border-radius: 8px;
+  background: #ffffff;
+  transition: background-color .2s, border-color .2s, box-shadow .2s;
 }
 
-/* On mouse-over, add a grey background color */
-.checkbox-container:hover input~.checkmark {
-  background-color: #ccc;
+.checkbox-container:hover input ~ .checkmark {
+  border-color: #1d9a6c;
 }
 
-/* When the checkbox is checked, add a blue background */
-.task .checkbox-container input[type="checkbox"]:checked~.checkmark {
-  background-color: #ccc;
+.task .checkbox-container input[type="checkbox"]:focus-visible ~ .checkmark {
+  box-shadow: 0 0 0 3px rgba(29, 154, 108, 0.16);
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
+.task .checkbox-container input[type="checkbox"]:checked ~ .checkmark {
+  border-color: #1d9a6c;
+  background-color: #eaf7f1;
+}
+
 .task .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
-.task .checkbox-container input[type="checkbox"]:checked~.checkmark:after {
+.task .checkbox-container input[type="checkbox"]:checked ~ .checkmark:after {
   display: block;
 }
 
-/* Style the checkmark/indicator */
 .task .checkbox-container .checkmark:after {
-  left: 20px;
-  top: 0px;
-  width: 12px;
-  height: 35px;
-  border: solid #007a2b;
+  left: 14px;
+  top: 6px;
+  width: 9px;
+  height: 20px;
+  border: solid #1d9a6c;
   border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+@media screen and (max-width: 560px) {
+  .task {
+    grid-template-columns: 40px minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  .task-data {
+    gap: 12px;
+  }
 }

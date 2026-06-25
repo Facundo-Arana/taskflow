@@ -1,13 +1,9 @@
 import "./layout.css";
 
-
 function MainLayout({ children }) {
   return (
-    <div className="main-conteiner">
-
+    <div className="main-container">
       <div className="main-layout">
-       {/*  <h1 className="main-title">Main Layout</h1>
-        <hr /> */}
         {children}
       </div>
     </div>

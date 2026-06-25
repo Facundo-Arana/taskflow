@@ -2,7 +2,7 @@ import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
 import "./home.css";
 
-function Home({ loading, error, taskList, onToggle, onDelete, onAddTask, onSort }) {
+function Home({ loading, error, taskList, onToggle, onDelete, onAddTask }) {
   return (
     <div className="home-container">
      {/*  <h2>Home</h2> */}
@@ -17,7 +17,6 @@ function Home({ loading, error, taskList, onToggle, onDelete, onAddTask, onSort 
         taskList={taskList}
         onToggle={onToggle}
         onDelete={onDelete}
-        onSort={onSort}
       />
     </div>
   );

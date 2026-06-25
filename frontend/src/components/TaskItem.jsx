@@ -40,7 +40,12 @@ function TaskItem({ task, onToggle, onDelete }) {
         </div>
 
 
-        <button className={`delete-item ${task.completed ? 'completed' : ''}`} onClick={handleDelete}></button>
+        <button
+          className={`delete-item ${task.completed ? 'completed' : ''}`}
+          onClick={handleDelete}
+          aria-label={`Eliminar tarea ${task.title}`}
+          title="Eliminar tarea"
+        ></button>
       </div>
     </li>
   );

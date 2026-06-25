@@ -1,17 +1,12 @@
 .home-container {
-    display: flex;
-    flex-direction: row;
-    column-gap: 50px;
-    width: -moz-available;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+    align-items: start;
+    gap: 28px;
 }
 
-.home-container h2{
-    color: #682BFF;
-}
-
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 860px) {
     .home-container {
-        flex-direction: column;
+        grid-template-columns: 1fr;
     }
 }

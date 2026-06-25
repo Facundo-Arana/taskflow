@@ -1,16 +1,20 @@
 import { useState } from "react";
 import "./taskForm.css";
 
-
 function TaskForm({ loading, onAddTask }) {
-
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
 
+    const submitTask = (event) => {
+        event.preventDefault();
+        const taskData = {
+            title: title.trim(),
+            description: description.trim(),
+            completed: false
+        };
 
-    const submitTask = (e) => {
-        e.preventDefault();
-        let taskData = { "title": title, "description": description, completed: false };
+        if (!taskData.title) return;
+
         onAddTask(taskData);
         setTitle("");
         setDescription("");
@@ -19,11 +23,21 @@ function TaskForm({ loading, onAddTask }) {
     return (
         <form className="task-form" onSubmit={submitTask}>
             <h3>Agregar una tarea</h3>
-            <label>Nombre</label>
-            <input value={title} onChange={(e) => setTitle(e.target.value)} />
-            <label>Descripcion</label>
-            <textarea rows="4" value={description} onChange={(e) => setDescription(e.target.value)} ></textarea>
-           
+            <label htmlFor="task-title">Nombre</label>
+            <input
+                id="task-title"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                required
+            />
+
+            <label htmlFor="task-description">Descripción</label>
+            <textarea
+                id="task-description"
+                rows="4"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+            ></textarea>
 
             <input type="submit" value="Agregar tarea" disabled={loading} />
         </form>
